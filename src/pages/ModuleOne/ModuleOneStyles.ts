@@ -8,7 +8,6 @@ export const Home = styled.div`
     box-sizing: border-box;
     min-height: 100vh;
     min-width: 100vw;
-    /* display: flex; */
     align-items: center;
     justify-content: center;
 `;
@@ -162,6 +161,7 @@ export const InputBalande = styled.input`
     color: black;
     border: solid 1px black;
     border-radius: 10px;
+    padding: 2px;
 `;
 
 export const InputTip = styled.input`
@@ -170,6 +170,7 @@ export const InputTip = styled.input`
     color: black;
     border: solid 1px black ;
     border-radius: 10px;
+    padding: 2px;
 `;
 
 export const TextPercentage = styled.h2`
@@ -197,4 +198,8 @@ export const ContainerResearch = styled.div`
     margin-left: 30%;
     background-color: powderblue;
     border-radius: 20px;
+`;
+
+export const TextValue = styled.text`
+    color: #483D8B;
 `;
