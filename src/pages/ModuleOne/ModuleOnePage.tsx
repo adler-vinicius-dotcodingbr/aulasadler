@@ -5,7 +5,7 @@ import React, { useEffect, useState, useContext } from 'react';
 // components (navigation)
 import DrawerNavigation from '../../routes/DrawerNavigation/DrawerNavigation';
 import ToNavigation from '../../routes/navigation';
-import Research from '../../components/Research';
+import Research from '../../components/Login/LoginPage';
 
 // js
 import {
@@ -35,6 +35,7 @@ import {
     TextPercentage,
     ContainerResult,
     ContainerResearch,
+    TextValue,
 } from './ModuleOneStyles';
 
 // contexts
@@ -47,9 +48,10 @@ const ModuleOnePage: React.FC = () => {
     const [idScreen, setIdScreen] = useState(1);
     const [score, setScore] = useState(0);
     const [textCounter, setTextCounter] = useState('');
-
     const [subtotal, setSubtotal] = useState(0);
     const [tip, setTip] = useState(10);
+    const [textInput, setTextInput] = useState('');
+    const [list, setList] = useState([]);
 
     // Calculadora
     const handleSubTotalInput = (e: { target: { value: string; }; }) => {
@@ -75,6 +77,21 @@ const ModuleOnePage: React.FC = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (score === 0) {
+            document.title = 'Comece a contar!';
+        } else {
+            document.title = `contagem: ${score}`;
+        }
+    }, [score]);
+
+    useEffect(() => {
+        setList([
+            {title: 'Comprar Ovos', done: false},
+            {title: 'Comprar macarrão', done: false}
+        ]);
+    }, []);
+
     // Componente retornando uma própiedade
     function Name(text:string) {
         return (
@@ -83,6 +100,7 @@ const ModuleOnePage: React.FC = () => {
             </>
         );
     }
+
     // Componente de Contador básico
     function AddScore() {
         return (
@@ -94,14 +112,9 @@ const ModuleOnePage: React.FC = () => {
             setScore(score - 1)
         );
     }
-
-    useEffect(() => {
-        if (score === 0) {
-            document.title = 'Comece a contar!';
-        } else {
-            document.title = `contagem: ${score}`;
-        }
-    }, [score]);
+    function handleInputText(newText: React.SetStateAction<string>) {
+        setTextInput(newText);
+    }
 
     const RenderScreen = () => {
         if (idScreen === 1) {
@@ -130,7 +143,8 @@ const ModuleOnePage: React.FC = () => {
                         <Body>
                             <TextArea>{Name('Tela 2')}</TextArea>
                         </Body>
-                        <ButtonNext onClick={() => setIdScreen(3)}>Next</ButtonNext>
+                        <ButtonNext onClick={() => setIdScreen(1)}>Voltar</ButtonNext>
+                        <ButtonNext onClick={() => setIdScreen(3)}>Proximo</ButtonNext>
                         <ContainerLogin>
                             <ContainerAcess>
                                 <TextScore>{score}</TextScore>
@@ -150,6 +164,7 @@ const ModuleOnePage: React.FC = () => {
                     <Body>
                         <TextArea>{Name('Tela 3')}</TextArea>
                     </Body>
+                    <ButtonNext onClick={() => setIdScreen(2)}>Voltar</ButtonNext>
                     <ButtonNext onClick={() => setIdScreen(4)}>Next</ButtonNext>
                     <ContainerLogin>
                         <ContainerAcess>
@@ -172,12 +187,13 @@ const ModuleOnePage: React.FC = () => {
                     <Body>
                         <TextArea>{Name('Tela 4')}</TextArea>
                     </Body>
+                    <ButtonNext onClick={() => setIdScreen(3)}>Voltar</ButtonNext>
                     <ButtonNext onClick={() => setIdScreen(5)}>Next</ButtonNext>
                     <ContainerCalculator>
                         <TextTip>Calculadora de Gorjeta</TextTip>
                         <TextBalance>Quanto deu sua conta?</TextBalance>
                         <InputBalande type="number" value={subtotal} onChange={handleSubTotalInput} />
-                        <TextPercentage>Qual porcentagem de gorjeta?</TextPercentage>
+                        <TextPercentage>Qual porcentagem da gorjeta?</TextPercentage>
                         <InputTip type="number" value={tip} onChange={handleTipInput} />
                         <ContainerResult>
                             {subtotal > 0 && (
@@ -206,18 +222,44 @@ const ModuleOnePage: React.FC = () => {
                 </Home>
             );
         }
-        // Separando em Componentes e utilizando em diversas tela com o codigo menor.
+        // Separando em Componentes e utilizando em diversas tela com o codigo menor e
+        // trocando dados entre Componentes. Renderizando uma lista.
         if (idScreen === 5) {
             return (
                 <Home>
                     <Body>
                         <TextArea>{Name('Tela 5')}</TextArea>
                     </Body>
+                    <ButtonNext onClick={() => setIdScreen(4)}>Voltar</ButtonNext>
+                    <ButtonNext onClick={() => setIdScreen(6)}>Next</ButtonNext>
+                    <ContainerResearch>
+                        <Research
+                            onChangeText={handleInputText}
+                        />
+                        <TextValue>
+                            {' '}
+                            {textInput}
+                        </TextValue>
+                        <ul>
+                            {list.map((item) => (
+                                    <li>{item.title}</li>
+                            ))}
+                        </ul>
+
+                    </ContainerResearch>
+                </Home>
+            );
+        }
+        if (idScreen === 6) {
+            return (
+                <Home>
+                    <Body>
+                        <TextArea>{Name('Tela 6')}</TextArea>
+                    </Body>
+                    <ButtonNext onClick={() => setIdScreen(1)}>Voltar</ButtonNext>
                     <ButtonNext onClick={() => setIdScreen(1)}>Next</ButtonNext>
                     <ContainerResearch>
-                        <Research />
-                        <Research />
-                        <Research />
+                        <h1>aqui</h1>
                     </ContainerResearch>
                 </Home>
             );
